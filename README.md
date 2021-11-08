@@ -3172,11 +3172,11 @@ preprocessing:
 #### 图像输入特征和编码器
 输入图像特征转换为大小 `N x H x W x C`(其中 `N` 是数据集的大小，`H x W` 是一个可以调整的指定图片大小，`C` 是通道的数量)的浮点值张量，并通过数据集中的列名做为键名添加到 HDF5 中。列名被添加到 JSON 文件中，并带有一个相关联的字典，其中包含关于调整大小的预处理信息。
 
-目前有两种支持图像的编码器：卷积堆叠编码器和 ResNet 编码器，可以通过设置 `encoder` 参数为 `stacked_cnn` 或在配置输入特征字典中设置为 `resnet`(`stacked_cnn` 是默认的)。
+目前有两种支持图像的编码器：stacked cnn 和 ResNet 编码器，可以通过设置 `encoder` 参数为 `stacked_cnn` 或在配置输入特征字典中设置为 `resnet`(`stacked_cnn` 是默认的)。
 
 
-##### 卷积堆叠编码器
-卷积堆叠编码器采用以下可选参数：
+##### stacked cnn 编码器
+stacked cnn 采用以下可选参数：
 
   * `conv_layers` (默认值 `null`)：它是一个字典列表，包含所有卷积层的参数。列表的长度决定堆叠卷积层的数量，每个字典的内容决定特定层的参数。每个层的可用参数是:`filter_size`, `num_filters`, `pool_size`, `norm`, `activation` 和 `regularize`。如果字典中缺少这些值中的任何一个，则将使用作为编码器参数指定的默认值。如果 `conv_layers` 和 `num_conv_layers` 都为 `null`，则会给 `conv_layers` 赋一个默认列表，值为 `[{filter_size: 7, pool_size: 3, regularize: false}, {filter_size: 7, pool_size: 3, regularize: false}, {filter_size: 3, pool_size: null, regularize: false}, {filter_size: 3, pool_size: null, regularize: false}, {filter_size: 3, pool_size: null, regularize: true}, {filter_size: 3, pool_size: 3, regularize: true}]`。
   * `num_conv_layers` (默认值 `null`)：如果 `conv_layers` 是 `null`，这是堆叠卷积层的数量。
@@ -3212,7 +3212,7 @@ preprocessing:
   * `fc_activation` (默认值 `relu`)：如果 `fc_layers` 中没有指定 `activation`，这是默认的 `activation`，将用于每个层。它表明应用于输出的激活函数。
   * `fc_dropout` (默认值 `0`)：Dropout 比率。
 
-在图像特征输入列表中使用卷积堆叠编码器示例：
+在图像特征输入列表中使用stacked cnn示例：
 
 ```yaml
 name: image_column_name
